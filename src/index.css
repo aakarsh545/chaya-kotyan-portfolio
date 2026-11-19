@@ -1,0 +1,100 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-midnight: #0B1426;
+  --color-cream: #F6EBD9;
+  --color-saree: #1F4E79;
+  --color-aqua: #9ED8D2;
+  --color-hibiscus: #E0728F;
+  --color-leaf: #2F5D3A;
+  --color-gold: #D9A441;
+}
+
+/* Custom Lenis smooth scroll setup */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+/* Editorial selection */
+::selection {
+  background-color: var(--color-gold);
+  color: var(--color-midnight);
+}
+
+/* Scrollbar styling strictly within palette */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0B1426;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1F4E79;
+  border-radius: 3px;
+  border: 1px solid rgba(217, 164, 65, 0.3);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #D9A441;
+}
+
+/* Soft living background glow & golden hour lighting */
+.golden-hour-glow {
+  background: radial-gradient(
+    circle at 50% 30%,
+    rgba(217, 164, 65, 0.12) 0%,
+    rgba(224, 114, 143, 0.06) 45%,
+    rgba(11, 20, 38, 0) 75%
+  );
+}
+
+/* 3D perspective for closing card */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.transform-style-preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+/* Reduced motion overrides */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
