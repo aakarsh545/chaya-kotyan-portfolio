@@ -86,70 +86,148 @@ export const Disciplines: React.FC = () => {
           {/* Micro-visual: Coded textured paint stroke */}
           <div className="w-full md:w-1/2 flex items-center justify-center">
             <svg
-              viewBox="0 0 400 150"
+              viewBox="0 0 400 300"
               className="w-full max-w-sm sm:max-w-md h-auto overflow-visible select-none"
               fill="none"
             >
               <defs>
-                <linearGradient id="strokePalette" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#1F4E79" />
-                  <stop offset="35%" stopColor="#F4A896" />
-                  <stop offset="70%" stopColor="#D9A441" />
+                <linearGradient id="paintSky" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#1F4E79" stopOpacity="0.6" />
+                  <stop offset="65%" stopColor="#F4A896" stopOpacity="0.35" />
+                  <stop offset="100%" stopColor="#FCEAE5" stopOpacity="0.3" />
+                </linearGradient>
+                <linearGradient id="paintPetal" x1="0" y1="1" x2="0" y2="0">
+                  <stop offset="0%" stopColor="#E0728F" />
+                  <stop offset="55%" stopColor="#F4A896" />
                   <stop offset="100%" stopColor="#FCEAE5" />
                 </linearGradient>
+                <radialGradient id="paintSun" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="#D9A441" stopOpacity="0.9" />
+                  <stop offset="100%" stopColor="#D9A441" stopOpacity="0" />
+                </radialGradient>
               </defs>
 
-              <motion.path
-                d="M 20,75 Q 120,15 220,95 T 380,55"
-                stroke="url(#strokePalette)"
-                strokeWidth="28"
-                strokeLinecap="round"
-                initial={((shouldReduceMotion ? { pathLength: 1 } : { pathLength: 0 })) as any}
-                whileInView={{ pathLength: 1 } as any}
+              {/* The canvas itself */}
+              <rect x="14" y="14" width="372" height="272" rx="3" fill="#F6EBD9" stroke="#D9A441" strokeWidth="1.2" strokeOpacity="0.6" />
+
+              {/* 1. Background wash, then the sun */}
+              <motion.rect
+                x="26" y="26" width="348" height="248" rx="2" fill="url(#paintSky)"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
                 viewport={{ once: false, amount: 0.3 }}
-                transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 1.2 }}
+              />
+              <motion.circle
+                cx="200" cy="120" r="78" fill="url(#paintSun)"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: false, amount: 0.3 }}
+                transition={{ duration: 1.4, delay: 0.3 }}
               />
 
-              <motion.path
-                d="M 25,67 Q 125,9 220,87 T 375,49"
-                stroke="#FCEAE5"
-                strokeWidth="3.5"
-                strokeOpacity="0.5"
-                initial={((shouldReduceMotion ? { pathLength: 1 } : { pathLength: 0 })) as any}
-                whileInView={{ pathLength: 1 } as any}
-                viewport={{ once: false, amount: 0.3 }}
-                transition={{ duration: 1.4, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-              />
-
-              <motion.path
-                d="M 30,85 Q 130,25 225,103 T 370,63"
-                stroke="#F4A896"
-                strokeWidth="4"
-                strokeOpacity="0.7"
-                initial={((shouldReduceMotion ? { pathLength: 1 } : { pathLength: 0 })) as any}
-                whileInView={{ pathLength: 1 } as any}
-                viewport={{ once: false, amount: 0.3 }}
-                transition={{ duration: 1.5, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-              />
-
-              {[
-                { cx: 80, cy: 115, r: 4, col: '#F4A896' },
-                { cx: 160, cy: 30, r: 3.5, col: '#D9A441' },
-                { cx: 280, cy: 125, r: 5, col: '#FCEAE5' },
-                { cx: 340, cy: 25, r: 3.5, col: '#1F4E79' },
-              ].map((dot, idx) => (
-                <motion.circle
-                  key={idx}
-                  cx={dot.cx}
-                  cy={dot.cy}
-                  r={dot.r}
-                  fill={dot.col}
-                  initial={{ scale: 0 }}
-                  whileInView={{ scale: 1 }}
-                  viewport={{ once: false, amount: 0.3 }}
-                  transition={{ duration: 0.3, delay: 0.9 + idx * 0.1 }}
-                />
+              {/* 2. Lotus: outer petals open first, then inner petals, all growing from the centre */}
+              {[-64, -32, 0, 32, 64].map((a, i) => (
+                <g key={`outer-${a}`} transform={`translate(200 206) rotate(${a})`}>
+                  <motion.path
+                    d="M0,0 C -36,-24 -32,-84 0,-116 C 32,-84 36,-24 0,0 Z"
+                    fill="url(#paintPetal)"
+                    stroke="#D9A441"
+                    strokeWidth="0.8"
+                    strokeOpacity="0.5"
+                    style={{ originX: '0px', originY: '0px' }}
+                    initial={{ scale: 0.1, opacity: 0 }}
+                    whileInView={{ scale: 1, opacity: 1 }}
+                    viewport={{ once: false, amount: 0.3 }}
+                    transition={{ duration: 1.1, delay: 0.6 + i * 0.12, ease: [0.22, 1, 0.36, 1] }}
+                  />
+                  <motion.path
+                    d="M0,-8 Q 0,-50 0,-92"
+                    stroke="#D9A441"
+                    strokeWidth="0.7"
+                    strokeOpacity="0.45"
+                    initial={{ pathLength: 0, opacity: 0 } as any}
+                    whileInView={{ pathLength: 1, opacity: 1 } as any}
+                    viewport={{ once: false, amount: 0.3 }}
+                    transition={{ duration: 0.9, delay: 1.2 + i * 0.12 }}
+                  />
+                </g>
               ))}
+              {[-20, 0, 20].map((a, i) => (
+                <g key={`inner-${a}`} transform={`translate(200 206) rotate(${a})`}>
+                  <motion.path
+                    d="M0,0 C -22,-14 -20,-58 0,-74 C 20,-58 22,-14 0,0 Z"
+                    fill="#FCEAE5"
+                    fillOpacity="0.92"
+                    stroke="#E0728F"
+                    strokeWidth="0.7"
+                    strokeOpacity="0.5"
+                    style={{ originX: '0px', originY: '0px' }}
+                    initial={{ scale: 0.1, opacity: 0 }}
+                    whileInView={{ scale: 1, opacity: 1 }}
+                    viewport={{ once: false, amount: 0.3 }}
+                    transition={{ duration: 0.9, delay: 1.7 + i * 0.12, ease: [0.22, 1, 0.36, 1] }}
+                  />
+                </g>
+              ))}
+
+              {/* 3. Leaves on either side of the lotus */}
+              <motion.path
+                d="M0,0 C 14,-14 34,-12 46,0 C 34,12 14,14 0,0 Z"
+                transform="translate(150 226) rotate(-18)"
+                fill="#2F5D3A"
+                fillOpacity="0.85"
+                initial={{ opacity: 0, pathLength: 0 } as any}
+                whileInView={{ opacity: 1, pathLength: 1 } as any}
+                viewport={{ once: false, amount: 0.3 }}
+                transition={{ duration: 1.2, delay: 2.0 }}
+              />
+              <motion.path
+                d="M0,0 C 14,-14 34,-12 46,0 C 34,12 14,14 0,0 Z"
+                transform="translate(250 226) scale(-1 1) rotate(-18)"
+                fill="#2F5D3A"
+                fillOpacity="0.85"
+                initial={{ opacity: 0, pathLength: 0 } as any}
+                whileInView={{ opacity: 1, pathLength: 1 } as any}
+                viewport={{ once: false, amount: 0.3 }}
+                transition={{ duration: 1.2, delay: 2.15 }}
+              />
+
+              {/* 4. Water line with ripples */}
+              <motion.ellipse
+                cx="200" cy="228" rx="128" ry="9" fill="#9ED8D2" fillOpacity="0.4"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: false, amount: 0.3 }}
+                transition={{ duration: 1, delay: 2.3 }}
+              />
+              <motion.path
+                d="M110,242 Q 200,252 290,242"
+                stroke="#9ED8D2" strokeWidth="1.4" strokeLinecap="round" strokeOpacity="0.8"
+                initial={{ pathLength: 0 } as any}
+                whileInView={{ pathLength: 1 } as any}
+                viewport={{ once: false, amount: 0.3 }}
+                transition={{ duration: 1.4, delay: 2.5 }}
+              />
+              <motion.path
+                d="M140,262 Q 200,270 260,262"
+                stroke="#9ED8D2" strokeWidth="1" strokeLinecap="round" strokeOpacity="0.55"
+                initial={{ pathLength: 0 } as any}
+                whileInView={{ pathLength: 1 } as any}
+                viewport={{ once: false, amount: 0.3 }}
+                transition={{ duration: 1.2, delay: 2.8 }}
+              />
+
+              {/* 5. Signature, last */}
+              <motion.text
+                x="346" y="272" textAnchor="end" fontFamily="'Pinyon Script', cursive" fontSize="20" fill="#1F4E79" fillOpacity="0.85"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: false, amount: 0.3 }}
+                transition={{ duration: 0.8, delay: 3.2 }}
+              >
+                Chaya
+              </motion.text>
             </svg>
           </div>
         </div>
@@ -170,71 +248,42 @@ export const Disciplines: React.FC = () => {
 
           <div className="w-full md:w-1/2 flex items-center justify-center">
             <div className="relative w-full max-w-xs sm:max-w-md h-28 flex items-center justify-center">
-              <svg viewBox="0 0 320 120" className="w-full h-full overflow-visible">
-                <motion.path
-                  d="M 60,35 C 40,25 25,45 28,70 C 32,95 55,100 70,88"
-                  fill="none"
-                  stroke="#F4A896"
-                  strokeWidth="3.4"
-                  strokeLinecap="round"
-                  initial={((shouldReduceMotion ? { pathLength: 1 } : { pathLength: 0 })) as any}
-                  whileInView={{ pathLength: 1 } as any}
-                  viewport={{ once: false, amount: 0.4 }}
-                  transition={{ duration: 0.7, ease: 'easeInOut' }}
-                />
-                <motion.path
-                  d="M 68,90 C 78,65 95,20 102,28 C 105,35 88,95 88,95 C 92,75 110,65 118,78 C 122,86 120,95 125,95"
-                  fill="none"
-                  stroke="#FCEAE5"
-                  strokeWidth="2.8"
-                  strokeLinecap="round"
-                  initial={((shouldReduceMotion ? { pathLength: 1 } : { pathLength: 0 })) as any}
-                  whileInView={{ pathLength: 1 } as any}
-                  viewport={{ once: false, amount: 0.4 }}
-                  transition={{ duration: 0.8, delay: 0.5, ease: 'easeInOut' }}
-                />
-                <motion.path
-                  d="M 125,95 C 135,75 152,70 148,84 C 144,98 132,98 134,86 C 136,74 150,72 154,82 L 156,95"
-                  fill="none"
-                  stroke="#FCEAE5"
-                  strokeWidth="2.8"
-                  strokeLinecap="round"
-                  initial={((shouldReduceMotion ? { pathLength: 1 } : { pathLength: 0 })) as any}
-                  whileInView={{ pathLength: 1 } as any}
-                  viewport={{ once: false, amount: 0.4 }}
-                  transition={{ duration: 0.7, delay: 1.1, ease: 'easeInOut' }}
-                />
-                <motion.path
-                  d="M 156,95 C 162,80 174,80 175,90 C 176,96 182,82 192,82 L 190,95 C 188,110 182,125 170,122 C 162,120 168,105 196,92"
-                  fill="none"
-                  stroke="#FCEAE5"
-                  strokeWidth="2.8"
-                  strokeLinecap="round"
-                  initial={((shouldReduceMotion ? { pathLength: 1 } : { pathLength: 0 })) as any}
-                  whileInView={{ pathLength: 1 } as any}
-                  viewport={{ once: false, amount: 0.4 }}
-                  transition={{ duration: 0.8, delay: 1.6, ease: 'easeInOut' }}
-                />
-                <motion.path
-                  d="M 196,92 C 205,75 220,70 218,84 C 215,98 202,98 205,86 C 208,74 220,74 224,84 L 226,95 C 235,96 260,88 280,75"
-                  fill="none"
-                  stroke="#F4A896"
-                  strokeWidth="2.8"
-                  strokeLinecap="round"
-                  initial={((shouldReduceMotion ? { pathLength: 1 } : { pathLength: 0 })) as any}
-                  whileInView={{ pathLength: 1 } as any}
-                  viewport={{ once: false, amount: 0.4 }}
-                  transition={{ duration: 0.9, delay: 2.2, ease: 'easeInOut' }}
-                />
-                <motion.circle
-                  cx="280"
-                  cy="75"
-                  r="3.5"
+              <svg viewBox="0 0 320 120" className="w-full h-full overflow-visible" role="img" aria-label="Chaya, handwritten">
+                <defs>
+                  {/* The mask is a white bar that widens across the word, so the script is revealed left to right, as if written */}
+                  <mask id="chayaWriting" maskUnits="userSpaceOnUse" x="0" y="0" width="320" height="120">
+                    <motion.rect
+                      x="36"
+                      y="0"
+                      height="120"
+                      fill="#fff"
+                      initial={{ width: 0 }}
+                      whileInView={{ width: 268 }}
+                      viewport={{ once: false, amount: 0.4 }}
+                      transition={{ duration: 2.6, ease: 'easeInOut' }}
+                    />
+                  </mask>
+                </defs>
+                <text
+                  x="160"
+                  y="84"
+                  textAnchor="middle"
+                  fontFamily="'Pinyon Script', cursive"
+                  fontSize="92"
                   fill="#F4A896"
-                  initial={{ scale: 0 }}
-                  whileInView={{ scale: [0, 1.4, 1] }}
+                  mask="url(#chayaWriting)"
+                >
+                  Chaya
+                </text>
+                {/* The pen tip, moving along with the writing */}
+                <motion.circle
+                  cy="90"
+                  r="3.2"
+                  fill="#FCEAE5"
+                  initial={{ cx: 36, opacity: 0 }}
+                  whileInView={{ cx: 304, opacity: [0, 1, 1, 0] }}
                   viewport={{ once: false, amount: 0.4 }}
-                  transition={{ duration: 0.4, delay: 3.0 }}
+                  transition={{ duration: 2.6, ease: 'easeInOut' }}
                 />
               </svg>
             </div>
