@@ -7,9 +7,16 @@ export default {
   theme: {
     extend: {
       colors: {
-        midnight: "#0B1426",
-        cream: "#F6EBD9",
+        peach: {
+          DEFAULT: "#F4A896", // Primary peach-ish pink
+          light: "#FCEAE5",
+          soft: "#F8C5B9",
+          deep: "#E58774",
+          dark: "#B85542",
+        },
+        midnight: "#0B1426", // Complementary midnight indigo
         saree: "#1F4E79",
+        cream: "#F6EBD9",
         aqua: "#9ED8D2",
         hibiscus: "#E0728F",
         leaf: "#2F5D3A",
