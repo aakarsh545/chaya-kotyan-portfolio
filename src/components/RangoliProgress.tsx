@@ -14,9 +14,9 @@ export const RangoliProgress: React.FC = () => {
       className="fixed bottom-4 right-4 z-40 select-none pointer-events-none flex items-center justify-center"
       aria-hidden="true"
     >
-      <div className="relative w-14 h-14 md:w-16 md:h-16 flex items-center justify-center">
+      <div className="relative w-16 h-16 md:w-20 md:h-20 flex items-center justify-center">
         {/* Soft backdrop circle in midnight */}
-        <div className="absolute inset-0 rounded-full bg-midnight/90 border border-gold/40 shadow-xl" />
+        <div className="absolute inset-0 rounded-full bg-midnight border-2 border-gold shadow-xl" />
 
         <svg
           viewBox="0 0 100 100"
@@ -28,9 +28,9 @@ export const RangoliProgress: React.FC = () => {
             cy="50"
             r="42"
             fill="none"
-            stroke="#1F4E79"
-            strokeWidth="1"
-            strokeOpacity="0.4"
+            stroke="#D9A441"
+            strokeWidth="1.6"
+            strokeOpacity="0.45"
           />
 
           {/* Animated Outer Mandalic Ring */}
@@ -40,7 +40,7 @@ export const RangoliProgress: React.FC = () => {
             r="42"
             fill="none"
             stroke="#D9A441"
-            strokeWidth="1.8"
+            strokeWidth="3"
             strokeLinecap="round"
             style={{
               pathLength: smoothProgress,
@@ -56,7 +56,7 @@ export const RangoliProgress: React.FC = () => {
             r="28"
             fill="none"
             stroke="#9ED8D2"
-            strokeWidth="1.2"
+            strokeWidth="2"
             strokeDasharray="2 3"
             style={{
               pathLength: smoothProgress,
@@ -72,7 +72,7 @@ export const RangoliProgress: React.FC = () => {
               d="M 50,50 Q 50,22 50,14 Q 58,26 50,50"
               fill="none"
               stroke="#F6EBD9"
-              strokeWidth="1.1"
+              strokeWidth="2"
               strokeLinecap="round"
               transform={`rotate(${angle} 50 50)`}
               style={{
@@ -106,7 +106,7 @@ export const RangoliProgress: React.FC = () => {
           <circle
             cx="50"
             cy="50"
-            r="3.5"
+            r="4.5"
             fill="#E0728F"
             stroke="#D9A441"
             strokeWidth="0.8"

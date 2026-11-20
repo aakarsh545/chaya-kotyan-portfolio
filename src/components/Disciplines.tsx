@@ -1,45 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import { getCopy } from '../content';
+import { content } from '../content';
+
+const D = content.disciplines.items;
 import { Flower } from './Flower';
 
 export const Disciplines: React.FC = () => {
   const shouldReduceMotion = useReducedMotion();
-
-  // Audio state for Singing discipline
-  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
-  const [hasVoiceAudio, setHasVoiceAudio] = useState(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-
-  // Video state for Dance discipline
-  const [hasDanceVideo, setHasDanceVideo] = useState(false);
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-  const [videoProgress, setVideoProgress] = useState(0);
-
-  // Check if voice.mp3 and dance.mp4 exist
-  useEffect(() => {
-    fetch('/assets/photos/voice.mp3', { method: 'HEAD' })
-      .then((res) => {
-        if (res.ok) setHasVoiceAudio(true);
-      })
-      .catch(() => setHasVoiceAudio(false));
-
-    fetch('/assets/photos/dance.mp4', { method: 'HEAD' })
-      .then((res) => {
-        if (res.ok) setHasDanceVideo(true);
-      })
-      .catch(() => setHasDanceVideo(false));
-  }, []);
-
-  const toggleAudio = () => {
-    if (!audioRef.current) return;
-    if (isPlayingAudio) {
-      audioRef.current.pause();
-      setIsPlayingAudio(false);
-    } else {
-      audioRef.current.play().then(() => setIsPlayingAudio(true)).catch(() => {});
-    }
-  };
 
   return (
     <section className="relative w-full peach-wash-disciplines text-cream py-16 md:py-28 px-4 sm:px-8 border-b border-peach/30 overflow-hidden">
@@ -55,14 +22,14 @@ export const Disciplines: React.FC = () => {
       {/* SECTION HEADER (Mobile-First) */}
       <div className="relative z-10 w-full max-w-xl mx-auto text-center mb-16">
         <span className="text-[10px] sm:text-[11px] font-sans tracking-[0.3em] text-peach uppercase font-semibold block">
-          POLYMATH & CRAFT
+          {content.disciplines.label}
         </span>
         <h2 className="font-bodoni text-4xl sm:text-5xl md:text-6xl text-cream mt-1 font-normal">
-          {getCopy('disciplines.sectionTitle', 'EIGHT DISCIPLINES')}
+          {content.disciplines.title}
         </h2>
         <div className="w-16 h-0.5 bg-peach mx-auto my-3" />
         <p className="font-editorial italic text-base sm:text-lg text-cream/85 max-w-md mx-auto">
-          {getCopy('disciplines.subtitle', 'Mastery across diverse realms')}
+          {content.disciplines.subtitle}
         </p>
       </div>
 
@@ -73,13 +40,13 @@ export const Disciplines: React.FC = () => {
         <div className="w-full flex flex-col md:flex-row items-center justify-between gap-6 border-b border-peach/20 pb-12">
           <div className="w-full md:w-1/2 text-left">
             <span className="text-[9px] sm:text-[10px] font-sans tracking-[0.25em] text-peach uppercase font-semibold block">
-              DISCIPLINE I · {getCopy('disciplines.canvas.kicker', 'PIGMENT & INTENTION')}
+              {D[0].n} · {D[0].kicker}
             </span>
             <h3 className="font-bodoni text-2xl sm:text-4xl text-cream mt-1">
-              {getCopy('disciplines.canvas.title', 'CANVAS')}
+              {D[0].title}
             </h3>
             <p className="font-editorial text-sm sm:text-base text-cream/80 mt-2 max-w-md">
-              {getCopy('disciplines.canvas.caption', 'CAPTION')}
+              {D[0].line}
             </p>
           </div>
 
@@ -236,13 +203,13 @@ export const Disciplines: React.FC = () => {
         <div className="w-full flex flex-col md:flex-row-reverse items-center justify-between gap-6 border-b border-peach/20 pb-12">
           <div className="w-full md:w-1/2 text-left">
             <span className="text-[9px] sm:text-[10px] font-sans tracking-[0.25em] text-peach uppercase font-semibold block">
-              DISCIPLINE II · {getCopy('disciplines.calligraphy.kicker', 'THE WRITTEN LINE')}
+              {D[1].n} · {D[1].kicker}
             </span>
             <h3 className="font-bodoni text-2xl sm:text-4xl text-cream mt-1">
-              {getCopy('disciplines.calligraphy.title', 'CALLIGRAPHY')}
+              {D[1].title}
             </h3>
             <p className="font-editorial text-sm sm:text-base text-cream/80 mt-2 max-w-md">
-              {getCopy('disciplines.calligraphy.caption', 'CAPTION')}
+              {D[1].line}
             </p>
           </div>
 
@@ -294,13 +261,13 @@ export const Disciplines: React.FC = () => {
         <div className="w-full flex flex-col md:flex-row items-center justify-between gap-6 border-b border-peach/20 pb-12">
           <div className="w-full md:w-1/2 text-left">
             <span className="text-[9px] sm:text-[10px] font-sans tracking-[0.25em] text-peach uppercase font-semibold block">
-              DISCIPLINE III · {getCopy('disciplines.spellBee.kicker', 'LEXICAL PRECISION')}
+              {D[2].n} · {D[2].kicker}
             </span>
             <h3 className="font-bodoni text-2xl sm:text-4xl text-cream mt-1">
-              {getCopy('disciplines.spellBee.title', 'SPELL BEE')}
+              {D[2].title}
             </h3>
             <p className="font-editorial text-sm sm:text-base text-cream/80 mt-2 max-w-md">
-              {getCopy('disciplines.spellBee.caption', 'CAPTION')}
+              {D[2].line}
             </p>
           </div>
 
@@ -319,14 +286,8 @@ export const Disciplines: React.FC = () => {
                   ease: [0.0, 0.0, 0.2, 1],
                 }}
               >
-                <span className="text-[8px] font-sans text-peach/70 self-start">
-                  {idx + 1}
-                </span>
                 <span className="font-bodoni font-bold text-2xl sm:text-3xl text-peach leading-none">
                   {letter}
-                </span>
-                <span className="text-[8px] font-sans text-gold self-end">
-                  {letter === 'A' ? 1 : letter === 'C' ? 3 : 4}
                 </span>
               </motion.div>
             ))}
@@ -337,13 +298,13 @@ export const Disciplines: React.FC = () => {
         <div className="w-full flex flex-col md:flex-row-reverse items-center justify-between gap-6 border-b border-peach/20 pb-12">
           <div className="w-full md:w-1/2 text-left">
             <span className="text-[9px] sm:text-[10px] font-sans tracking-[0.25em] text-peach uppercase font-semibold block">
-              DISCIPLINE IV · {getCopy('disciplines.rangoli.kicker', 'SACRED GEOMETRY')}
+              {D[3].n} · {D[3].kicker}
             </span>
             <h3 className="font-bodoni text-2xl sm:text-4xl text-cream mt-1">
-              {getCopy('disciplines.rangoli.title', 'RANGOLI')}
+              {D[3].title}
             </h3>
             <p className="font-editorial text-sm sm:text-base text-cream/80 mt-2 max-w-md">
-              {getCopy('disciplines.rangoli.caption', 'CAPTION')}
+              {D[3].line}
             </p>
           </div>
 
@@ -408,56 +369,28 @@ export const Disciplines: React.FC = () => {
         <div className="w-full flex flex-col md:flex-row items-center justify-between gap-6 border-b border-peach/20 pb-12">
           <div className="w-full md:w-1/2 text-left">
             <span className="text-[9px] sm:text-[10px] font-sans tracking-[0.25em] text-peach uppercase font-semibold block">
-              DISCIPLINE V · {getCopy('disciplines.dance.kicker', 'BHARATANATYAM')}
+              {D[4].n} · {D[4].kicker}
             </span>
             <h3 className="font-bodoni text-2xl sm:text-4xl text-cream mt-1">
-              {getCopy('disciplines.dance.title', 'DANCE')}
+              {D[4].title}
             </h3>
             <p className="font-editorial text-sm sm:text-base text-cream/80 mt-2 max-w-md">
-              {getCopy('disciplines.dance.caption', 'CAPTION')}
+              {D[4].line}
             </p>
           </div>
 
           <div className="w-full md:w-1/2 flex flex-col items-center justify-center">
-            <div className="relative w-64 sm:w-72 aspect-[3/4] border-2 border-peach/60 p-2 bg-midnight shadow-[0_10px_30px_rgba(244,168,150,0.3)] overflow-hidden group">
-              {hasDanceVideo ? (
-                <div className="relative w-full h-full flex flex-col">
-                  <video
-                    ref={videoRef}
-                    src="/assets/photos/dance.mp4"
-                    className="w-full h-full object-cover"
-                    playsInline
-                    muted
-                    loop
-                  />
-                  <input
-                    type="range"
-                    min="0"
-                    max="100"
-                    value={videoProgress}
-                    onChange={(e) => {
-                      const val = Number(e.target.value);
-                      setVideoProgress(val);
-                      if (videoRef.current && videoRef.current.duration) {
-                        videoRef.current.currentTime = (val / 100) * videoRef.current.duration;
-                      }
-                    }}
-                    className="w-full mt-2 accent-peach cursor-pointer"
-                  />
-                </div>
-              ) : (
-                <div className="relative w-full h-full overflow-hidden">
-                  <img
-                    src="/assets/photos/photo-02.webp"
-                    alt="Chaya Classical Dance Interlude"
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-midnight/70 via-transparent to-transparent pointer-events-none" />
-                  <span className="absolute bottom-2 left-2 text-[9px] font-sans tracking-widest text-peach uppercase">
-                    Dance Motion Interlude
-                  </span>
-                </div>
-              )}
+            <div className="relative w-64 sm:w-72 aspect-[3/4] overflow-hidden group bg-midnight shadow-[0_10px_30px_rgba(244,168,150,0.3)] border-2 border-peach/60 p-2">
+              <div className="relative w-full h-full overflow-hidden">
+                <img
+                  src="/assets/photos/photo-02.webp"
+                  alt=""
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <span className="absolute bottom-2 left-2 text-[9px] font-sans tracking-widest text-peach uppercase">
+                  {D[4].photoLabel}
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -466,13 +399,13 @@ export const Disciplines: React.FC = () => {
         <div className="w-full flex flex-col md:flex-row-reverse items-center justify-between gap-6 border-b border-peach/20 pb-12">
           <div className="w-full md:w-1/2 text-left">
             <span className="text-[9px] sm:text-[10px] font-sans tracking-[0.25em] text-peach uppercase font-semibold block">
-              DISCIPLINE VI · {getCopy('disciplines.singing.kicker', 'VOCAL SILK')}
+              {D[5].n} · {D[5].kicker}
             </span>
             <h3 className="font-bodoni text-2xl sm:text-4xl text-cream mt-1">
-              {getCopy('disciplines.singing.title', 'SINGING')}
+              {D[5].title}
             </h3>
             <p className="font-editorial text-sm sm:text-base text-cream/80 mt-2 max-w-md">
-              {getCopy('disciplines.singing.caption', 'CAPTION')}
+              {D[5].line}
             </p>
           </div>
 
@@ -528,78 +461,38 @@ export const Disciplines: React.FC = () => {
                 />
               </svg>
 
-              {hasVoiceAudio && (
-                <div className="mt-3 flex items-center gap-3">
-                  <audio ref={audioRef} src="/assets/photos/voice.mp3" onEnded={() => setIsPlayingAudio(false)} />
-                  <button
-                    onClick={toggleAudio}
-                    className="px-4 py-1.5 border border-peach text-peach text-xs font-sans tracking-widest uppercase hover:bg-peach hover:text-midnight transition-colors"
-                  >
-                    {isPlayingAudio ? 'Pause Audio' : 'Play Voice Recording'}
-                  </button>
-                </div>
-              )}
-            </div>
+                          </div>
           </div>
         </div>
 
-        {/* 7 & 8. THROWBALL & ATHLETICS: Bold kinetic type, all hard cuts */}
+        {/* 7 & 8. THROWBALL & ATHLETICS: kinetic words, hard cuts */}
         <div className="w-full flex flex-col md:flex-row items-center justify-between gap-6 pb-8">
           <div className="w-full md:w-1/2 text-left">
             <span className="text-[9px] sm:text-[10px] font-sans tracking-[0.25em] text-peach uppercase font-semibold block">
-              DISCIPLINES VII & VIII · {getCopy('disciplines.throwball.kicker', 'COURT & TRACK')}
+              {D[6].n} · {D[6].kicker}
             </span>
-            <h3 className="font-bodoni text-2xl sm:text-4xl text-cream mt-1">
-              THROWBALL + ATHLETICS
-            </h3>
-            <p className="font-editorial text-sm sm:text-base text-cream/80 mt-2 max-w-md">
-              {getCopy('disciplines.throwball.caption', 'CAPTION')}
-            </p>
+            <h3 className="font-bodoni text-2xl sm:text-4xl text-cream mt-1">{D[6].title}</h3>
+            <p className="font-editorial text-sm sm:text-base text-cream/80 mt-2 max-w-md">{D[6].line}</p>
           </div>
 
-          <div className="w-full md:w-1/2 flex flex-col gap-2.5 font-bodoni text-xl select-none">
-            <div className="flex gap-2">
-              <motion.div
-                className="bg-saree text-cream px-3 py-1 font-bold text-xs sm:text-sm tracking-widest border border-peach/50 uppercase"
-                initial={{ opacity: 0, x: -10 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: false }}
-                transition={{ duration: 0.25, ease: [0, 0, 0.2, 1] }}
-              >
-                SPIKE
-              </motion.div>
-              <motion.div
-                className="bg-peach text-midnight px-3 py-1 font-bold text-xs sm:text-sm tracking-widest uppercase"
-                initial={{ opacity: 0, x: 10 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: false }}
-                transition={{ duration: 0.25, delay: 0.15, ease: [0, 0, 0.2, 1] }}
-              >
-                ZONE DEFENSE
-              </motion.div>
-            </div>
-
-            <div className="border border-peach/40 p-3 sm:p-4 bg-midnight/80 flex flex-col gap-2 shadow-md">
-              <div className="flex justify-between items-center text-xs font-sans tracking-[0.2em] text-peach uppercase">
-                <span>LANE 04</span>
-                <span className="text-gold font-bold">00:00:22.4</span>
-              </div>
-              <motion.div
-                className="w-full h-1 bg-saree relative overflow-hidden"
-                initial={{ opacity: 0.5 }}
-                whileInView={{ opacity: 1 }}
-              >
+          <div className="w-full md:w-1/2 flex flex-col gap-3 select-none">
+            <div className="flex flex-wrap gap-2 font-bodoni">
+              {D[6].kineticWords.map((word, i) => (
                 <motion.div
-                  className="absolute top-0 bottom-0 left-0 bg-peach w-1/3"
-                  animate={{ left: ['-30%', '110%'] }}
-                  transition={{ duration: 1.8, repeat: Infinity, ease: 'linear' }}
-                />
-              </motion.div>
-              <div className="flex justify-between text-[9px] font-sans tracking-widest text-cream/60 uppercase">
-                <span>START BLOCKS</span>
-                <span>FINISH LINE TAPE</span>
-              </div>
+                  key={word}
+                  className={`px-3 py-1 font-bold text-xs sm:text-sm tracking-widest uppercase ${
+                    i % 2 === 0 ? 'bg-saree text-cream border border-peach/50' : 'bg-peach text-midnight'
+                  }`}
+                  initial={{ opacity: 0, x: i % 2 === 0 ? -10 : 10 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: false }}
+                  transition={{ duration: 0.25, delay: i * 0.15, ease: [0, 0, 0.2, 1] }}
+                >
+                  {word}
+                </motion.div>
+              ))}
             </div>
+            <p className="font-editorial italic text-base sm:text-lg text-cream/85">{D[6].motto}</p>
           </div>
         </div>
 
