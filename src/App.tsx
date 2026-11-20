@@ -24,6 +24,46 @@ export function App() {
 
     lenisRef.current = lenis;
 
+    // Gentle snap: once scrolling stops near a section start or a book page turn,
+    // ease the page the rest of the way to it.
+    const snapPoints = (): number[] => {
+      const pts: number[] = [];
+      document.querySelectorAll<HTMLElement>('main > section').forEach((sec) => {
+        pts.push(sec.getBoundingClientRect().top + window.scrollY);
+      });
+      document.querySelectorAll<HTMLElement>('[data-snap-steps]').forEach((el) => {
+        const steps = Number(el.dataset.snapSteps);
+        const top = el.getBoundingClientRect().top + window.scrollY;
+        const range = el.offsetHeight - window.innerHeight;
+        for (let k = 0; k <= steps; k++) pts.push(top + (k / steps) * range);
+      });
+      return pts;
+    };
+
+    let idleTimer: number | undefined;
+    const settle = () => {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const y = window.scrollY;
+      let best: number | null = null;
+      let bestDist = Infinity;
+      for (const p of snapPoints()) {
+        const d = Math.abs(p - y);
+        if (d < bestDist) {
+          bestDist = d;
+          best = p;
+        }
+      }
+      // Only snap when a stop is close; in the middle of a long section, leave it alone
+      if (best !== null && bestDist > 4 && bestDist < window.innerHeight * 0.4) {
+        lenis.scrollTo(best, { duration: 1.1 });
+      }
+    };
+    const onScroll = () => {
+      window.clearTimeout(idleTimer);
+      idleTimer = window.setTimeout(settle, 220);
+    };
+    lenis.on('scroll', onScroll);
+
     function raf(time: number) {
       lenis.raf(time);
       requestAnimationFrame(raf);
@@ -33,6 +73,8 @@ export function App() {
 
     return () => {
       cancelAnimationFrame(rafId);
+      window.clearTimeout(idleTimer);
+      lenis.off('scroll', onScroll);
       lenis.destroy();
     };
   }, []);

@@ -233,7 +233,7 @@ export const Portraits: React.FC = () => {
       </div>
 
       {/* The book. The section is tall; the book itself stays pinned while you scroll. */}
-      <div ref={wrapRef} className="relative h-[750vh]">
+      <div ref={wrapRef} className="relative h-[750vh]" data-snap-steps={SHEET_COUNT}>
         <div
           className="book-size sticky top-0 flex h-[100dvh] items-center justify-center overflow-hidden"
           style={{ perspective: '2200px' }}
