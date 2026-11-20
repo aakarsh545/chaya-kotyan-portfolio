@@ -3,13 +3,15 @@
 @tailwind utilities;
 
 :root {
+  --color-peach: #F4A896;
+  --color-peach-light: #FCEAE5;
+  --color-peach-deep: #E58774;
   --color-midnight: #0B1426;
-  --color-cream: #F6EBD9;
   --color-saree: #1F4E79;
+  --color-cream: #F6EBD9;
   --color-aqua: #9ED8D2;
-  --color-hibiscus: #E0728F;
-  --color-leaf: #2F5D3A;
   --color-gold: #D9A441;
+  --color-leaf: #2F5D3A;
 }
 
 /* Custom Lenis smooth scroll setup */
@@ -36,7 +38,7 @@ html.lenis body {
 
 /* Editorial selection */
 ::selection {
-  background-color: var(--color-gold);
+  background-color: var(--color-peach);
   color: var(--color-midnight);
 }
 
@@ -50,23 +52,64 @@ html.lenis body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1F4E79;
+  background: #F4A896;
   border-radius: 3px;
-  border: 1px solid rgba(217, 164, 65, 0.3);
+  border: 1px solid rgba(11, 20, 38, 0.3);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #D9A441;
+  background: #E58774;
 }
 
-/* Soft living background glow & golden hour lighting */
-.golden-hour-glow {
+/* Colorful peach-pink radiant background washes fading throughout */
+.peach-wash-top {
   background: radial-gradient(
-    circle at 50% 30%,
-    rgba(217, 164, 65, 0.12) 0%,
-    rgba(224, 114, 143, 0.06) 45%,
-    rgba(11, 20, 38, 0) 75%
+    circle at 50% 15%,
+    rgba(244, 168, 150, 0.42) 0%,
+    rgba(229, 135, 116, 0.22) 35%,
+    rgba(31, 78, 121, 0.15) 60%,
+    rgba(11, 20, 38, 0.95) 90%
   );
+}
+
+.peach-wash-portraits {
+  background: linear-gradient(
+    180deg,
+    rgba(252, 234, 229, 0.95) 0%,
+    rgba(248, 197, 185, 0.85) 25%,
+    rgba(244, 168, 150, 0.75) 50%,
+    rgba(252, 234, 229, 0.92) 80%,
+    rgba(246, 235, 217, 0.95) 100%
+  );
+}
+
+.peach-wash-disciplines {
+  background: radial-gradient(
+    circle at 80% 30%,
+    rgba(244, 168, 150, 0.28) 0%,
+    rgba(224, 114, 143, 0.15) 30%,
+    rgba(31, 78, 121, 0.25) 60%,
+    rgba(11, 20, 38, 0.98) 95%
+  );
+}
+
+.peach-wash-closing {
+  background: linear-gradient(
+    180deg,
+    rgba(246, 235, 217, 0.95) 0%,
+    rgba(252, 234, 229, 0.95) 40%,
+    rgba(244, 168, 150, 0.8) 75%,
+    rgba(248, 197, 185, 0.95) 100%
+  );
+}
+
+/* Floating peach ambient orbs */
+.peach-orb-1 {
+  background: radial-gradient(circle, rgba(244, 168, 150, 0.45) 0%, rgba(244, 168, 150, 0) 70%);
+}
+
+.peach-orb-2 {
+  background: radial-gradient(circle, rgba(229, 135, 116, 0.35) 0%, rgba(31, 78, 121, 0) 70%);
 }
 
 /* 3D perspective for closing card */
