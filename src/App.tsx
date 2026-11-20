@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from 'react';
 import Lenis from 'lenis';
 import { Loader } from './components/Loader';
 import { Garden } from './components/Garden';
-import { RangoliProgress } from './components/RangoliProgress';
 import { Cover } from './components/Cover';
 import { Portraits } from './components/Portraits';
 import { Disciplines } from './components/Disciplines';
@@ -55,7 +54,6 @@ export function App() {
       <Garden />
 
       {/* SCROLL PROGRESS MANDALA: Sacred Rangoli completing with scroll */}
-      <RangoliProgress />
 
       {/* MAIN EDITORIAL MAGAZINE SECTIONS */}
       <main className="relative z-20 w-full">
